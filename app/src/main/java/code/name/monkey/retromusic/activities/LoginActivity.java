@@ -2,10 +2,13 @@ package code.name.monkey.retromusic.activities;
 
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import code.name.monkey.retromusic.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText ename;
-    private EditText epassword;
-    private Button elogin;
+    private String TAG = LoginActivity.class.getSimpleName();
+    private EditText    ename;
+    private EditText    epassword;
+    private Button      elogin;
     private TextView eattempsinfo;
 
     private String Username = "Admin";
@@ -28,43 +37,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ename = findViewById(R.id.editTextTextPersonName);
-        epassword = findViewById(R.id.editTextTextPersonName2);
-        elogin = findViewById(R.id.button);
-        eattempsinfo=findViewById(R.id.textView4);
-
-        elogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String inputname = ename.getText().toString();
-                String inputPassword = epassword.getText().toString();
-
-                if (inputname.isEmpty() || inputPassword.isEmpty()) {
-                    Toast.makeText(LoginActivity.this,"Please enter all the details correctly",Toast.LENGTH_SHORT).show();
-                } else {
-
-                    isValid = validate(inputname, inputPassword);
-                    if (!isValid) {
-
-                        counter--;
-                        Toast.makeText(LoginActivity.this,"Incorrect credentials entered!",Toast.LENGTH_SHORT).show();
-                        eattempsinfo.setText("No. of attempts remaining : "+counter);
-                        if (counter == 0) {
-                            elogin.setEnabled(false);
-                        }
-                    }else{
-                        Toast.makeText(LoginActivity.this,"Login successful!",Toast.LENGTH_SHORT).show();
-                        //Add the code to go to new activity
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        });
-
+        addControl();
+        addEvent();
     }
+
     private boolean validate(String name,String password){
         if(name.equals(Username)&&password.equals(Password))
         {
@@ -72,4 +48,57 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+    private void addControl() {
+        ename = findViewById(R.id.editTextTextPersonName);
+        epassword = findViewById(R.id.editTextTextPersonName2);
+        elogin = findViewById(R.id.button);
+        eattempsinfo=findViewById(R.id.textView4);
+
+    }
+    private void addEvent() {
+        elogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (epassword == null && ename == null)
+                        return;
+                    elogin.setEnabled(true);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://140.136.151.130/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    JsonApi Jsonapi = retrofit.create(JsonApi.class);
+                    Call<authentication> placeHolderApis = Jsonapi.login(ename.getText().toString(), epassword.getText().toString());
+                    placeHolderApis.enqueue(new Callback<authentication>() {
+                        @Override
+                        public void onResponse(@NonNull Call<authentication> call, @NonNull Response<authentication> response) {
+                            //Response was successfull
+                            if (response.isSuccessful()) {
+                                Log.i(TAG, "Response: " + response.body());
+                                // updateUiWithUser(loginResult.getSuccess());
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<authentication> call, @NonNull Throwable t) {
+                            Log.e(TAG, "Response: " + t.getMessage());
+                            t.printStackTrace();
+                            //Response failed
+
+                            //  showLoginFailed(loginResult.getError());
+                        }
+                    });
+                }
+                catch (Exception e){
+                    Toast toast=Toast.makeText(LoginActivity.this,e.toString(),Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                setResult(Activity.RESULT_OK);
+                //Complete and destroy login activity once successful
+            }
+        });}
+
 }

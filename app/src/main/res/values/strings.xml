@@ -663,6 +663,9 @@
     <string name="action_toggle_shuffle">Toggle shuffle mode</string>
     <string name="action_toggle_favorite">Toggle favorite</string>
     <string name="hello">hello</string>
-    <string name="editor">Editor</string>
-    <string name = "no_of_attempts_remaining_5">no of attempts remaining: 5</string>
+    <string name="editor">Creator</string>
+    <string name="no_of_attempts_remaining_5">no of attempts remaining: 5</string>
+    <string name="Music">Music</string>
+    <string name="check_password">Check Password</string>
+    <string name="register">register</string>
 </resources>

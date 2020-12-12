@@ -52,11 +52,11 @@
     <string name="app_shortcut_shuffle_all_short">隨機播放</string>
     <string name="app_shortcut_top_tracks_long">@string/my_top_tracks</string>
     <string name="app_shortcut_top_tracks_short">最佳單曲</string>
-    <string name="app_widget_big_name">Retro music - 大型</string>
-    <string name="app_widget_classic_name">Retro music - 經典</string>
-    <string name="app_widget_small_name">Retro music - 小型</string>
-    <string name="artist">演唱者</string>
-    <string name="artists">演唱者</string>
+    <string name="app_widget_big_name">Music Creator - 大型</string>
+    <string name="app_widget_classic_name">Music Creator - 經典</string>
+    <string name="app_widget_small_name">Music Creator - 小型</string>
+    <string name="artist">創造</string>
+    <string name="artists">創造</string>
     <string name="audio_focus_denied">無法控制音訊焦點。</string>
     <string name="biography">簡介</string>
     <string name="black_theme_name">純黑（AMOLED）</string>
@@ -204,4 +204,6 @@
     <string name="x_has_been_set_as_ringtone">已將 %1$s 設為鈴聲。</string>
     <string name="x_selected">已選取 %1$d 個</string>
     <string name="year">年份</string>
+    <string name="check_password">確認密碼</string>
+    <string name="register">註冊</string>
 </resources>

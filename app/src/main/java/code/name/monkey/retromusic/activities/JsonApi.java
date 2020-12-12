@@ -6,4 +6,6 @@ import retrofit2.http.Query;
 public interface JsonApi {
     @POST("login")
     Call<authentication> login(@Query("username") String username, @Query("password") String password);
+    @POST("register")
+    Call<authentication> register(@Query("username") String username, @Query("password") String password);
 }

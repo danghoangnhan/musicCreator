@@ -1,7 +1,4 @@
 package code.name.monkey.retromusic.activities;
-
-
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,18 +18,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 public class LoginActivity extends AppCompatActivity {
     private String TAG = LoginActivity.class.getSimpleName();
     private EditText    ename;
     private EditText    epassword;
     private Button      elogin;
     private TextView eattempsinfo;
-
-    private String Username = "Admin";
-    private String Password = "12345678";
-    boolean isValid = false;
-    private int counter=5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         addEvent();
     }
 
-    private boolean validate(String name,String password){
-        if(name.equals(Username)&&password.equals(Password))
-        {
-            return true;
-        }
-        return false;
-    }
     private void addControl() {
         ename = findViewById(R.id.editTextTextPersonName);
         epassword = findViewById(R.id.editTextTextPersonName2);
@@ -72,23 +56,19 @@ public class LoginActivity extends AppCompatActivity {
                     placeHolderApis.enqueue(new Callback<authentication>() {
                         @Override
                         public void onResponse(@NonNull Call<authentication> call, @NonNull Response<authentication> response) {
-                            //Response was successfull
                             if (response.isSuccessful()) {
-                                Log.i(TAG, "Response: " + response.body());
-                                // updateUiWithUser(loginResult.getSuccess());
+                                Toast toast=Toast.makeText(LoginActivity.this,"welcome "+ename.getText().toString(),Toast.LENGTH_SHORT);
+                                toast.show();
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(i);
                                 finish();
                             }
                         }
-
                         @Override
                         public void onFailure(@NonNull Call<authentication> call, @NonNull Throwable t) {
-                            Log.e(TAG, "Response: " + t.getMessage());
+                            Toast toast=Toast.makeText(LoginActivity.this,"login failed",Toast.LENGTH_SHORT);
+                            toast.show();
                             t.printStackTrace();
-                            //Response failed
-
-                            //  showLoginFailed(loginResult.getError());
                         }
                     });
                 }
@@ -97,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                     toast.show();
                 }
                 setResult(Activity.RESULT_OK);
-                //Complete and destroy login activity once successful
             }
         });}
 

@@ -668,4 +668,5 @@
     <string name="Music">Music</string>
     <string name="check_password">Check Password</string>
     <string name="register">register</string>
+    <string name="register_titile">Register</string>
 </resources>

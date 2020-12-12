@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText    ename;
     private EditText    epassword;
     private Button      elogin;
-    private Button      eregister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         ename = findViewById(R.id.editTextTextPersonName);
         epassword = findViewById(R.id.editTextTextPersonName2);
         elogin = findViewById(R.id.button);
-        eregister = findViewById(R.id.button3);
-
 
     }
     private void addEvent() {
-
-
         elogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
